@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-router.post('/', "teste");
+router.get('/', (resquest, response) => {
+  return response.send('teste')
+});
 
 module.exports = router;
