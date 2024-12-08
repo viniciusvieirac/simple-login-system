@@ -1,8 +1,8 @@
 <template>
-  <div class="login-container">
+  <div class="register-container">
     <div class="form-wrapper">
-      <h2>Login</h2>
-      <form @submit.prevent="login">
+      <h2>Cadastro</h2>
+      <form @submit.prevent="register">
         <input
           type="email"
           v-model="email"
@@ -15,10 +15,15 @@
           placeholder="Senha"
           required
         />
-        <button type="submit" class="btn">Entrar</button>
-        
-        <router-link to="/register">
-          <button type="button" class="btn btn-register">Fazer Cadastro</button>
+        <input
+          type="password"
+          v-model="confirmPassword"
+          placeholder="Confirme a Senha"
+          required
+        />
+        <button type="submit" class="btn">Cadastrar</button>
+        <router-link to="/login">
+          <button type="button" class="btn btn-register">Já tem uma conta? Faça login</button>
         </router-link>
       </form>
     </div>
@@ -31,32 +36,30 @@ export default {
     return {
       email: '',
       password: '',
+      confirmPassword: '',
     };
   },
   methods: {
-    async login() {
-      try {
-        await this.$store.dispatch('login', {
-          email: this.email,
-          password: this.password,
-        });
-        this.$router.push('/profile');
-      } catch (error) {
-        console.error(error);
+    async register() {
+      if (this.password !== this.confirmPassword) {
+        alert('As senhas não coincidem!');
+        return;
       }
+        this.$router.push('/');
     },
   },
 };
 </script>
 
 <style scoped>
-.login-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #f4f4f9;
 }
+
 .form-wrapper {
   background-color: #fff;
   padding: 20px;
