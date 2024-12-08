@@ -24,10 +24,26 @@ module.exports = {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({ message: 'Email ou senha incorreto' });
+      return res.status(400).send({
+        status: 0,
+        message: 'E-mail ou senha incorreto!',
+        user: {}
+      });
     }
-    if (user.password !== password) {
-      return res.status(401).json({ message: 'Unauthorized' });
+    if (!bcrypt.compareSync(password, user.password)) {
+      return res.status(400).send({
+        status: 0,
+        message: 'E-mail ou senha incorreto!',
+        user: {}
+      });
     }
+
+    user.password = undefined;
+
+    return res.status(200).json({
+      status: 1,
+      message: 'User logged in successfully',
+      user,
+    });
   }
 };
