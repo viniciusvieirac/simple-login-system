@@ -15,6 +15,9 @@
           placeholder="Senha"
           required
         />
+
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+
         <button type="submit" class="btn">Entrar</button>
         
         <router-link to="/register">
@@ -32,6 +35,7 @@ export default {
     return {
       email: '',
       password: '',
+      errorMessage: '',
     };
   },
 
@@ -40,6 +44,7 @@ export default {
       const loginData = {
         email: this.email,
         password: this.password,
+        errorMessage: '',
       };
 
       try {
@@ -54,8 +59,11 @@ export default {
 
         this.$router.push('/profile');
       } catch (error) {
-        console.error('Erro no login:', error);
-        alert('Credenciais inválidas. Tente novamente.');
+        if (error.response && error.response.data) {
+          this.errorMessage = error.response.data.message || 'Erro desconhecido';
+        } else {
+          this.errorMessage = 'Erro na conexão. Tente novamente.';
+        }
       }
     },
   },
