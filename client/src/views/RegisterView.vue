@@ -4,6 +4,12 @@
       <h2>Cadastro</h2>
       <form @submit.prevent="register">
         <input
+          type="text"
+          v-model="name"
+          placeholder="Nome"
+          required
+        />
+        <input
           type="email"
           v-model="email"
           placeholder="Email"
@@ -22,7 +28,7 @@
           required
         />
         <button type="submit" class="btn">Cadastrar</button>
-        <router-link to="/login">
+        <router-link to="/">
           <button type="button" class="btn btn-register">Já tem uma conta? Faça login</button>
         </router-link>
       </form>
@@ -31,23 +37,46 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
     };
   },
+
   methods: {
-    async register() {
-      if (this.password !== this.confirmPassword) {
-        alert('As senhas não coincidem!');
-        return;
-      }
-        this.$router.push('/');
-    },
+  async register() {
+    if (this.password !== this.confirmPassword) {
+      alert('As senhas não coincidem!');
+      return;
+    }
+
+    const userData = {
+      name: this.name,
+      email: this.email,
+      password: this.password,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8888/api/register', userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Função de registro chamada');
+      console.log('Resposta da API:', response.data);
+      this.$router.push('/'); 
+    } catch (error) {
+      console.error('Erro ao registrar:', error);
+      alert('Houve um erro ao tentar registrar o usuário.');
+    }
   },
+}
+
 };
 </script>
 
