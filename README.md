@@ -54,11 +54,19 @@ A API estará disponível em http://localhost:8888.
 Configure e execute as migrações:
 
 npx sequelize-cli db:migrate
+
 Endpoints da API
+
 POST /api/register: Cria um novo usuário.
+
 POST /api/login: Realiza login e retorna um token JWT.
+
 GET /api/profile: Retorna dados do usuário autenticado (requisição com token JWT no cabeçalho Authorization).
+
 Fluxo
+
 Página de Login: Se não houver token no localStorage, o usuário será redirecionado para /login.
+
 Página de Registro: O usuário pode se cadastrar.
+
 Perfil: Após o login, o usuário é redirecionado para /profile, onde pode ver suas informações.
