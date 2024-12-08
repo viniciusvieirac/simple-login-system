@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -33,16 +34,28 @@ export default {
       password: '',
     };
   },
+
   methods: {
     async login() {
+      const loginData = {
+        email: this.email,
+        password: this.password,
+      };
+
       try {
-        await this.$store.dispatch('login', {
-          email: this.email,
-          password: this.password,
+        const response = await axios.post('http://localhost:8888/api/login', loginData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
+        localStorage.setItem('jwt_token', response.data.token);
+
+        console.log('Login bem-sucedido:', response.data);
+
         this.$router.push('/profile');
       } catch (error) {
-        console.error(error);
+        console.error('Erro no login:', error);
+        alert('Credenciais inválidas. Tente novamente.');
       }
     },
   },
