@@ -1,24 +1,50 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const authConfig = require('../config/auth');
+require('dotenv').config();
+
+const secret = process.env.JWT_SECRET;
 
 function generateToken(params = {}) {
-  return jwt.sign(params, authConfig.secret, {
+  return jwt.sign(params, secret, {
     expiresIn: 86400,
   });
 }
 
 module.exports = {
+
   async getUser(req, res) {
-    const users = await User.findOne({
-      attributes: { exclude: ['password'] },
-    });
-    if (users === '' || users === null) {
-      return res.status(404).json({ message: 'No user found' });
+    try {
+
+      const token = req.headers.authorization.split(' ')[1];
+
+      if (!token) {
+        return res.status(403).json({ message: 'Token não encontrado' });
+      }
+
+
+      const decoded = jwt.verify(token, secret);
+
+
+      const userId = decoded.id;
+
+
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: { exclude: ['password'] },
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+
+
+      return res.status(200).json({ user });
+    } catch (error) {
+      return res.status(500).json({ message: 'Erro ao obter usuário', error: error.message });
     }
-    return res.status(200).json({ users });
   },
+
 
   async create(req, res) {
     const { name, password, email } = req.body;
