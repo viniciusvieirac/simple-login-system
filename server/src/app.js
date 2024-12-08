@@ -6,7 +6,7 @@ require('./database');
 app.use(express.json());
 
 
-app.use('/login', routes);
+app.use('/api', routes);
 app.get('/', (request, response) => {
   return response.send('hello world');
 });

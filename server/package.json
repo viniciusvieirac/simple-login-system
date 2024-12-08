@@ -3,6 +3,7 @@
     "dev": "nodemon src/app.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.21.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.5",
