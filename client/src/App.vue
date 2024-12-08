@@ -1,17 +1,23 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
-</script>
-
 <template>
   <header>
     <div class="wrapper">
       <nav>
+        <router-link v-if="!isAuthenticated" to="/"></router-link>
+        <router-link v-if="isAuthenticated" to="/profile">Perfil</router-link>
       </nav>
     </div>
   </header>
   <RouterView />
 </template>
 
-<style scoped>
+<script>
+import { authStore } from './store/store';
 
-</style>
+export default {
+  computed: {
+    isAuthenticated() {
+      return authStore.isAuthenticated(); 
+    }
+  }
+};
+</script>

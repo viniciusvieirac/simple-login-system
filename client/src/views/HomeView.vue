@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import { authStore } from '../store/store';
 export default {
   data() {
     return {
@@ -44,7 +45,6 @@ export default {
       const loginData = {
         email: this.email,
         password: this.password,
-        errorMessage: '',
       };
 
       try {
@@ -53,10 +53,13 @@ export default {
             'Content-Type': 'application/json',
           },
         });
-        localStorage.setItem('jwt_token', response.data.token);
+
+        const { token, user } = response.data;
+        
+        // Atualize o Vue Store com o usuário e token
+        authStore.login(user, token);
 
         console.log('Login bem-sucedido:', response.data);
-
         this.$router.push('/profile');
       } catch (error) {
         if (error.response && error.response.data) {
