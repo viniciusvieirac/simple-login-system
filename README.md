@@ -17,8 +17,7 @@ Proteção de rotas com JWT
 Instalação
 
 1. Clonando o repositório
-bash
-Copiar código
+
 git clone https://github.com/seu-usuario/simple-login-system.git
 cd simple-login-system
 
@@ -28,8 +27,7 @@ Acesse a pasta do cliente:
 cd client
 
 Instale as dependências:
-bash
-Copiar código
+
 npm install
 Execute a aplicação:
 
