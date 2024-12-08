@@ -81,7 +81,6 @@ export default {
         }, 3000);
         
       } catch (error) {
-        console.error('Erro ao registrar:', error);
         this.showMessage('Houve um erro ao tentar registrar o usuário.', 'error');
       }
     },
