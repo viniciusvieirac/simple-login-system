@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { UserService } = require('../service');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -48,7 +49,7 @@ module.exports = {
 
   async create(req, res) {
     const { name, password, email } = req.body;
-    const user = await User.create({ name, password, email });
+    const user = await UserService.createUser({ name, password, email });
     const token = generateToken({ id: user.id });
     return res.status(201).json({
       status: 1,
@@ -60,7 +61,7 @@ module.exports = {
 
   async login(req, res) {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await UserService.getByemail(email);
     if (!user) {
       return res.status(400).send({
         status: 0,
