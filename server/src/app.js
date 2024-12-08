@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const routes = require('./routes/login')
+const routes = require('./routes/login');
+require('./database');
 
 app.use(express.json());
 
