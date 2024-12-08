@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const authConfig = require('../config/auth');
 
 function generateToken(params = {}) {
@@ -58,5 +57,10 @@ module.exports = {
       user,
       token,
     });
+  },
+
+  async getUserByEmail(email) {
+    const user = await User.findOne({ where: { email } });
+    return user;
   }
 };
