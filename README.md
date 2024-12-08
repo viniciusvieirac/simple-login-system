@@ -1,6 +1,3 @@
-
-Claro! Aqui está uma versão mais enxuta e focada para um README.md no GitHub:
-
 Sistema de Login Simples
 
 Aplicação de login simples com Vue.js no front-end e Node.js/Express no back-end, utilizando JWT para autenticação.
