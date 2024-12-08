@@ -6,7 +6,7 @@ const { validateEmail, validateUser } = require('../middleware/userMiddleware');
 
 
 router.get('/profile', authMiddleware, UserController.getUser);
-router.post('/login', validateEmail, UserController.login);
+router.post('/login', UserController.login);
 router.post('/register', validateUser, validateEmail, UserController.create);
 
 module.exports = router;

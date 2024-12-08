@@ -11,7 +11,9 @@ function generateToken(params = {}) {
 
 module.exports = {
   async getUser(req, res) {
-    const users = await User.findAll();
+    const users = await User.findOne({
+      attributes: { exclude: ['password'] },
+    });
     if (users === '' || users === null) {
       return res.status(404).json({ message: 'No user found' });
     }
