@@ -56,7 +56,6 @@ export default {
 
         const { token, user } = response.data;
         
-        // Atualize o Vue Store com o usuário e token
         authStore.login(user, token);
 
         console.log('Login bem-sucedido:', response.data);

@@ -3,7 +3,7 @@
     <div class="wrapper">
       <nav>
         <router-link v-if="!isAuthenticated" to="/"></router-link>
-        <router-link v-if="isAuthenticated" to="/profile">Perfil</router-link>
+        <router-link v-if="isAuthenticated" to="/profile"></router-link>
       </nav>
     </div>
   </header>

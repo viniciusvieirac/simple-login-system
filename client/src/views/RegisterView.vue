@@ -2,6 +2,10 @@
   <div class="register-container">
     <div class="form-wrapper">
       <h2>Cadastro</h2>
+      <div v-if="message" :class="messageClass" class="message">
+        {{ message }}
+      </div>
+      
       <form @submit.prevent="register">
         <input
           type="text"
@@ -45,38 +49,53 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      message: '',
+      messageClass: '',
     };
   },
 
   methods: {
-  async register() {
-    if (this.password !== this.confirmPassword) {
-      alert('As senhas não coincidem!');
-      return;
-    }
+    async register() {
+      if (this.password !== this.confirmPassword) {
+        this.showMessage('As senhas não coincidem!', 'error');
+        return;
+      }
 
-    const userData = {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-    };
+      const userData = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      };
 
-    try {
-      const response = await axios.post('http://localhost:8888/api/register', userData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('Função de registro chamada');
-      console.log('Resposta da API:', response.data);
-      this.$router.push('/'); 
-    } catch (error) {
-      console.error('Erro ao registrar:', error);
-      alert('Houve um erro ao tentar registrar o usuário.');
+      try {
+        const response = await axios.post('http://localhost:8888/api/register', userData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        this.showMessage('Conta criada com sucesso! Agora, faça login.', 'success');
+        
+        setTimeout(() => {
+          this.$router.push('/'); 
+        }, 3000);
+        
+      } catch (error) {
+        console.error('Erro ao registrar:', error);
+        this.showMessage('Houve um erro ao tentar registrar o usuário.', 'error');
+      }
+    },
+
+    showMessage(message, type) {
+      this.message = message;
+      this.messageClass = type === 'success' ? 'message-success' : 'message-error';
+
+      setTimeout(() => {
+        this.message = '';
+        this.messageClass = '';
+      }, 5000);
     }
   },
-}
-
 };
 </script>
 
@@ -141,5 +160,22 @@ button:hover {
 
 .btn-register:hover {
   background-color: #1e88e5;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.message-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.message-error {
+  background-color: #f44336;
+  color: white;
 }
 </style>

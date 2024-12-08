@@ -13,9 +13,7 @@
 </template>
 
 <script>
-import { authStore } from '../store/store';
 import axios from 'axios';
-
 export default {
   data() {
     return {
@@ -27,7 +25,7 @@ export default {
   },
   methods: {
     async fetchUserData() {
-      const token = authStore.token;
+      const token = localStorage.getItem('jwt_token');
       
       if (!token) {
         alert('Você precisa estar logado para acessar esta página!');
@@ -41,15 +39,13 @@ export default {
             'Authorization': `Bearer ${token}`,
           },
         });
-        console.log('Dados do usuário:', response.data.users);
-        this.user = response.data.users;
+        this.user = response.data.user;
       } catch (error) {
-        console.error('Erro ao carregar dados do usuário:', error);
         this.$router.push('/');
       }
     },
     logout() {
-      authStore.logout();
+      localStorage.removeItem('jwt_token');
       this.$router.push('/');
     },
   },
